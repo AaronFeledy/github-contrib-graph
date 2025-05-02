@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub Contribution Graph",
+  "version": "1.0.0",
+  "description": "View your GitHub contribution graph from the toolbar"
+}
