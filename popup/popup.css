@@ -1,0 +1,226 @@
+:root {
+  /* GitHub contribution colors (dark theme) */
+  --color-calendar-graph-day-bg: #161b22;
+  --color-calendar-graph-day-L1-bg: #0e4429;
+  --color-calendar-graph-day-L2-bg: #006d32;
+  --color-calendar-graph-day-L3-bg: #26a641;
+  --color-calendar-graph-day-L4-bg: #39d353;
+
+  /* UI colors */
+  --bg-color: #0d1117;
+  --text-color: #c9d1d9;
+  --text-muted: #8b949e;
+  --border-color: #30363d;
+  --link-color: rgb(68, 147, 248);
+  --error-color: #f85149;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-width: 320px;
+  max-width: 800px;
+}
+
+.container {
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.total-count {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--link-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.error-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--error-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.error-message {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.error-message a {
+  color: var(--link-color);
+}
+
+.retry-btn {
+  background-color: #238636;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.retry-btn:hover {
+  background-color: #2ea043;
+}
+
+/* Graph Container */
+.graph-container {
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.graph-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contribution Grid */
+.contribution-graph {
+  display: flex;
+  gap: 3px;
+}
+
+.week-column {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.day-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.day-cell:hover {
+  outline: 1px solid var(--text-muted);
+  outline-offset: 1px;
+}
+
+/* Contribution levels */
+.level-0 { background-color: var(--color-calendar-graph-day-bg); }
+.level-1 { background-color: var(--color-calendar-graph-day-L1-bg); }
+.level-2 { background-color: var(--color-calendar-graph-day-L2-bg); }
+.level-3 { background-color: var(--color-calendar-graph-day-L3-bg); }
+.level-4 { background-color: var(--color-calendar-graph-day-L4-bg); }
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  background-color: #1b1f23;
+  color: var(--text-color);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.legend-cells {
+  display: flex;
+  gap: 2px;
+}
+
+.legend .cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.footer a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Utility */
+.hidden {
+  display: none !important;
+}

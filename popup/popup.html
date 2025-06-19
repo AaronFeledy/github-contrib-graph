@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="popup.css">
+  <title>GitHub Contributions</title>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">Contributions</h1>
+      <span class="total-count" id="totalCount"></span>
+    </header>
+
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <span>Loading contributions...</span>
+    </div>
+
+    <div id="error" class="error hidden">
+      <span class="error-icon">!</span>
+      <span class="error-message" id="errorMessage">Failed to load contributions</span>
+      <button id="retryBtn" class="retry-btn">Retry</button>
+    </div>
+
+    <div id="graphContainer" class="graph-container hidden">
+      <div class="graph-wrapper" id="graphWrapper">
+        <!-- Contribution graph will be inserted here -->
+      </div>
+      <div class="legend">
+        <span class="legend-label">Less</span>
+        <div class="legend-cells">
+          <div class="cell level-0"></div>
+          <div class="cell level-1"></div>
+          <div class="cell level-2"></div>
+          <div class="cell level-3"></div>
+          <div class="cell level-4"></div>
+        </div>
+        <span class="legend-label">More</span>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <a href="#" target="_blank" rel="noopener">
+        View on GitHub
+      </a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
