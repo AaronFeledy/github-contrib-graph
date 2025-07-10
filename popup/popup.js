@@ -239,14 +239,23 @@ async function getUsername() {
  * Show configuration prompt when no username is set
  */
 function showConfigPrompt() {
-  errorMessageEl.innerHTML = 'Please configure your GitHub username in the <a href="#" id="openOptions">extension settings</a>.';
-  showState('error');
-  retryBtn.style.display = 'none';
+  // Clear existing content and build DOM safely
+  errorMessageEl.textContent = '';
+  errorMessageEl.appendChild(document.createTextNode('Please configure your GitHub username in the '));
 
-  document.getElementById('openOptions').addEventListener('click', (e) => {
+  const link = document.createElement('a');
+  link.href = '#';
+  link.id = 'openOptions';
+  link.textContent = 'extension settings';
+  link.addEventListener('click', (e) => {
     e.preventDefault();
     browser.runtime.openOptionsPage();
   });
+  errorMessageEl.appendChild(link);
+  errorMessageEl.appendChild(document.createTextNode('.'));
+
+  showState('error');
+  retryBtn.style.display = 'none';
 }
 
 /**
