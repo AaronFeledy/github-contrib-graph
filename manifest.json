@@ -2,7 +2,9 @@
   "manifest_version": 3,
   "name": "GitHub Contribution Graph",
   "version": "1.0.0",
-  "description": "View your GitHub contribution graph from the toolbar",
+  "description": "View your GitHub contribution graph directly from the browser toolbar. Quickly check your daily contributions and yearly activity without leaving your current tab.",
+  "author": "Aaron Feledy",
+  "homepage_url": "https://github.com/aaronfeledy/github-contrib-graph",
 
   "browser_specific_settings": {
     "gecko": {

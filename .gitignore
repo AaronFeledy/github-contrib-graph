@@ -1,0 +1,21 @@
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.xpi
+*.zip
+web-ext-artifacts/
+
+# Node (if added later)
+node_modules/
+
+# Logs
+*.log
