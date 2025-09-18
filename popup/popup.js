@@ -144,7 +144,7 @@ function showTooltip(event, text) {
   const rect = event.target.getBoundingClientRect();
   const tooltipRect = tooltipEl.getBoundingClientRect();
 
-  let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+  let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
   let top = rect.top - tooltipRect.height - 8;
 
   // Keep tooltip in viewport
@@ -211,7 +211,7 @@ function renderGraph(data) {
       cell.className = `day-cell level-${day.level}`;
       cell.setAttribute('data-date', day.date);
 
-      cell.addEventListener('mouseenter', (e) => {
+      cell.addEventListener('mouseenter', e => {
         showTooltip(e, day.tooltipText);
       });
 
@@ -241,13 +241,15 @@ async function getUsername() {
 function showConfigPrompt() {
   // Clear existing content and build DOM safely
   errorMessageEl.textContent = '';
-  errorMessageEl.appendChild(document.createTextNode('Please configure your GitHub username in the '));
+  errorMessageEl.appendChild(
+    document.createTextNode('Please configure your GitHub username in the ')
+  );
 
   const link = document.createElement('a');
   link.href = '#';
   link.id = 'openOptions';
   link.textContent = 'extension settings';
-  link.addEventListener('click', (e) => {
+  link.addEventListener('click', e => {
     e.preventDefault();
     browser.runtime.openOptionsPage();
   });
@@ -297,7 +299,6 @@ async function fetchContributions() {
     }
 
     renderGraph(data);
-
   } catch (error) {
     console.error('Failed to fetch contributions:', error);
     showError(error.message || 'Failed to load contributions');

@@ -22,7 +22,8 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
   font-size: 14px;
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -74,7 +75,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Error State */
@@ -160,11 +163,21 @@ body {
 }
 
 /* Contribution levels */
-.level-0 { background-color: var(--color-calendar-graph-day-bg); }
-.level-1 { background-color: var(--color-calendar-graph-day-L1-bg); }
-.level-2 { background-color: var(--color-calendar-graph-day-L2-bg); }
-.level-3 { background-color: var(--color-calendar-graph-day-L3-bg); }
-.level-4 { background-color: var(--color-calendar-graph-day-L4-bg); }
+.level-0 {
+  background-color: var(--color-calendar-graph-day-bg);
+}
+.level-1 {
+  background-color: var(--color-calendar-graph-day-L1-bg);
+}
+.level-2 {
+  background-color: var(--color-calendar-graph-day-L2-bg);
+}
+.level-3 {
+  background-color: var(--color-calendar-graph-day-L3-bg);
+}
+.level-4 {
+  background-color: var(--color-calendar-graph-day-L4-bg);
+}
 
 /* Tooltip */
 .tooltip {

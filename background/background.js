@@ -3,7 +3,7 @@
 /**
  * Handle messages from popup
  */
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'FETCH_CONTRIBUTIONS') {
     fetchContributions(message.url)
       .then(html => sendResponse({ html }))
@@ -21,7 +21,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 async function fetchContributions(url) {
   const response = await fetch(url, {
     headers: {
-      'Accept': 'text/html'
+      Accept: 'text/html'
     }
   });
 

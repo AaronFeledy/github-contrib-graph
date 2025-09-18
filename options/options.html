@@ -1,28 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="options.css">
-  <title>GitHub Contribution Graph Settings</title>
-</head>
-<body>
-  <div class="container">
-    <h1>Settings</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="options.css" />
+    <title>GitHub Contribution Graph Settings</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Settings</h1>
 
-    <form id="settingsForm">
-      <div class="form-group">
-        <label for="username">GitHub Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your GitHub username" required>
-        <p class="hint">The username whose contribution graph will be displayed.</p>
-      </div>
+      <form id="settingsForm">
+        <div class="form-group">
+          <label for="username">GitHub Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your GitHub username"
+            required
+          />
+          <p class="hint">The username whose contribution graph will be displayed.</p>
+        </div>
 
-      <div class="actions">
-        <button type="submit" class="save-btn">Save</button>
-        <span id="status" class="status"></span>
-      </div>
-    </form>
-  </div>
+        <div class="actions">
+          <button type="submit" class="save-btn">Save</button>
+          <span id="status" class="status"></span>
+        </div>
+      </form>
+    </div>
 
-  <script src="options.js"></script>
-</body>
+    <script src="options.js"></script>
+  </body>
 </html>

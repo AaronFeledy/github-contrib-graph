@@ -41,6 +41,34 @@ The extension requires the `storage` permission to save your username and `host_
 
 ## Development
 
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Setup
+
+```bash
+npm install
+```
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run start` | Launch Firefox with extension loaded for development |
+| `npm run build` | Build .xpi package in `web-ext-artifacts/` |
+| `npm run lint` | Check code for issues |
+| `npm run lint:fix` | Auto-fix linting issues |
+| `npm run format` | Format all files with Prettier |
+| `npm run format:check` | Check formatting without changes |
+
+### Manual Loading
+
+1. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
+2. Click "Load Temporary Add-on"
+3. Select the `manifest.json` file from this directory
+
 ### Project Structure
 
 ```
@@ -55,12 +83,12 @@ The extension requires the `storage` permission to save your username and `host_
 │   ├── popup.html
 │   ├── popup.css
 │   └── popup.js
-└── manifest.json       # Extension manifest (MV3)
+├── manifest.json       # Extension manifest (MV3)
+├── eslint.config.js    # ESLint configuration
+├── web-ext-config.mjs  # web-ext build configuration
+├── .prettierrc         # Prettier configuration
+└── package.json        # npm scripts and dependencies
 ```
-
-### Reload After Changes
-
-After making changes, reload the extension from `about:debugging` or close and reopen the popup.
 
 ## License
 
