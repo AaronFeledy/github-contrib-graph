@@ -20,7 +20,8 @@ npm install
 | ------------------ | -------------------------------------------------- |
 | `npm run start`    | Launch Firefox with extension for live development |
 | `npm run build`    | Create .xpi in `web-ext-artifacts/`                |
-| `npm run lint`     | Check code for issues                              |
+| `npm run lint`     | Check code for issues (ESLint)                     |
+| `npm run lint:ext` | Validate extension (Mozilla addons-linter)         |
 | `npm run lint:fix` | Auto-fix linting issues                            |
 | `npm run format`   | Format all files with Prettier                     |
 
@@ -75,6 +76,7 @@ options/        # Settings page - accessible from extension preferences
 - **ESLint**: Flat config in `eslint.config.js` with browser/webextension globals
 - **Prettier**: Config in `.prettierrc` (single quotes, semicolons, 2-space indent)
 - **web-ext**: Mozilla's official tool for building and testing; config in `web-ext-config.mjs`
+- **addons-linter**: Mozilla's official extension validator (via `web-ext lint`); same validation used by AMO
 
 Dev files are excluded from the built .xpi via `ignoreFiles` in web-ext config.
 
@@ -82,11 +84,11 @@ Dev files are excluded from the built .xpi via `ignoreFiles` in web-ext config.
 
 **GitHub Actions Workflows:**
 
-| Workflow           | Trigger                      | Purpose                                    |
-| ------------------ | ---------------------------- | ------------------------------------------ |
-| `ci.yml`           | Push/PR to main              | Run ESLint, Prettier check, build          |
-| `version-bump.yml` | Push to main / manual        | Bump version based on conventional commits |
-| `release.yml`      | Tag push / release published | Build .xpi and attach to GitHub release    |
+| Workflow           | Trigger                      | Purpose                                              |
+| ------------------ | ---------------------------- | ---------------------------------------------------- |
+| `ci.yml`           | Push/PR to main              | Run ESLint, Mozilla validation, Prettier check, build |
+| `version-bump.yml` | Push to main / manual        | Bump version based on conventional commits           |
+| `release.yml`      | Tag push / release published | Validate, build .xpi and attach to GitHub release    |
 
 **Conventional Commits:**
 

@@ -4,6 +4,7 @@ export default {
   ignoreFiles: [
     'node_modules',
     'web-ext-artifacts',
+    'scripts',
     'package.json',
     'package-lock.json',
     'eslint.config.js',
@@ -13,6 +14,7 @@ export default {
     '.prettierignore',
     '.gitignore',
     '.git',
+    '.github',
     'README.md',
     'AGENTS.md',
     'CLAUDE.md',

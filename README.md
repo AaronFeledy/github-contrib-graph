@@ -58,7 +58,8 @@ npm install
 | ---------------------- | ---------------------------------------------------- |
 | `npm run start`        | Launch Firefox with extension loaded for development |
 | `npm run build`        | Build .xpi package in `web-ext-artifacts/`           |
-| `npm run lint`         | Check code for issues                                |
+| `npm run lint`         | Check code for issues (ESLint)                       |
+| `npm run lint:ext`     | Validate extension for AMO submission                |
 | `npm run lint:fix`     | Auto-fix linting issues                              |
 | `npm run format`       | Format all files with Prettier                       |
 | `npm run format:check` | Check formatting without changes                     |

@@ -26,6 +26,9 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Validate extension (Mozilla addons-linter)
+        run: npm run lint:ext
+
       - name: Check Prettier formatting
         run: npm run format:check
 
