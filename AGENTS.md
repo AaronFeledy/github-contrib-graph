@@ -16,13 +16,13 @@ npm install
 
 **Commands:**
 
-| Command | Purpose |
-|---------|---------|
-| `npm run start` | Launch Firefox with extension for live development |
-| `npm run build` | Create .xpi in `web-ext-artifacts/` |
-| `npm run lint` | Check code for issues |
-| `npm run lint:fix` | Auto-fix linting issues |
-| `npm run format` | Format all files with Prettier |
+| Command            | Purpose                                            |
+| ------------------ | -------------------------------------------------- |
+| `npm run start`    | Launch Firefox with extension for live development |
+| `npm run build`    | Create .xpi in `web-ext-artifacts/`                |
+| `npm run lint`     | Check code for issues                              |
+| `npm run lint:fix` | Auto-fix linting issues                            |
+| `npm run format`   | Format all files with Prettier                     |
 
 **Manual loading:**
 

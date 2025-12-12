@@ -1,6 +1,6 @@
 {
   "name": "github-contrib-graph",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Firefox extension to display GitHub contribution graph in toolbar",
   "private": true,
   "type": "module",
@@ -10,13 +10,14 @@
     "format": "prettier --write \"**/*.{js,json,css,html,md}\"",
     "format:check": "prettier --check \"**/*.{js,json,css,html,md}\"",
     "build": "web-ext build",
-    "start": "web-ext run"
+    "start": "web-ext run",
+    "version": "node scripts/sync-version.mjs && git add manifest.json"
   },
   "devDependencies": {
     "eslint": "^9.16.0",
-    "globals": "^15.13.0",
+    "globals": "^16.0.0",
     "prettier": "^3.4.2",
-    "web-ext": "^8.3.0"
+    "web-ext": "^9.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

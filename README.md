@@ -54,14 +54,14 @@ npm install
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run start` | Launch Firefox with extension loaded for development |
-| `npm run build` | Build .xpi package in `web-ext-artifacts/` |
-| `npm run lint` | Check code for issues |
-| `npm run lint:fix` | Auto-fix linting issues |
-| `npm run format` | Format all files with Prettier |
-| `npm run format:check` | Check formatting without changes |
+| Command                | Description                                          |
+| ---------------------- | ---------------------------------------------------- |
+| `npm run start`        | Launch Firefox with extension loaded for development |
+| `npm run build`        | Build .xpi package in `web-ext-artifacts/`           |
+| `npm run lint`         | Check code for issues                                |
+| `npm run lint:fix`     | Auto-fix linting issues                              |
+| `npm run format`       | Format all files with Prettier                       |
+| `npm run format:check` | Check formatting without changes                     |
 
 ### Manual Loading
 

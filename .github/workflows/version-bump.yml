@@ -1,0 +1,104 @@
+name: Version Bump
+
+on:
+  # Automatic: runs on merge to main
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'manifest.json'
+
+  # Manual: workflow dispatch with version type input
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+permissions:
+  contents: write
+
+jobs:
+  version-bump:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    # Skip if commit was made by the bot (prevents infinite loop)
+    if: "!contains(github.event.head_commit.message, 'chore(release):')"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Automatic bump using conventional commits
+      - name: Conventional Changelog (auto)
+        if: github.event_name == 'push'
+        id: changelog-auto
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version-file: './package.json'
+          output-file: 'CHANGELOG.md'
+          skip-version-file: false
+          skip-commit: false
+          skip-tag: false
+          git-message: 'chore(release): {version}'
+          tag-prefix: 'v'
+
+      # Sync manifest.json for auto bumps
+      - name: Sync manifest.json (auto)
+        if: github.event_name == 'push' && steps.changelog-auto.outputs.skipped != 'true'
+        run: |
+          node scripts/sync-version.mjs
+          git add manifest.json
+          git commit --amend --no-edit
+          git push origin main --force-with-lease
+          git push origin --tags --force-with-lease
+
+      # Manual bump using npm version
+      - name: Manual Version Bump
+        if: github.event_name == 'workflow_dispatch'
+        id: manual-bump
+        run: |
+          npm version ${{ inputs.version_type }} --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      # Sync manifest.json for manual bumps
+      - name: Sync manifest.json (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/sync-version.mjs
+
+      # Commit and tag for manual bumps
+      - name: Commit and Tag (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          VERSION=${{ steps.manual-bump.outputs.version }}
+          git add package.json package-lock.json manifest.json
+          git commit -m "chore(release): v${VERSION}"
+          git tag "v${VERSION}"
+          git push origin main --tags
