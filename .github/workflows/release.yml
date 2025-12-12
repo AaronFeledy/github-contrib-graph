@@ -33,20 +33,19 @@ jobs:
       - name: Validate extension (Mozilla addons-linter)
         run: npm run lint:ext
 
-      - name: Build extension
-        id: build
-        uses: kewisch/action-web-ext@v1
-        with:
-          cmd: build
-          source: .
-          filename: 'github-contrib-graph-{version}.xpi'
-
       - name: Get version from tag
         id: version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Build extension
+        id: build
+        run: |
+          npm run build
+          XPI_FILE=$(ls web-ext-artifacts/*.zip)
+          echo "target=$XPI_FILE" >> $GITHUB_OUTPUT
 
       # For tag push events, create a release
       - name: Create Release (on tag push)
