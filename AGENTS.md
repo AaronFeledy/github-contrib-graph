@@ -82,11 +82,11 @@ Dev files are excluded from the built .xpi via `ignoreFiles` in web-ext config.
 
 **GitHub Actions Workflows:**
 
-| Workflow             | Trigger                      | Purpose                                   |
-| -------------------- | ---------------------------- | ----------------------------------------- |
-| `ci.yml`             | Push/PR to main              | Run ESLint, Prettier check, build         |
-| `version-bump.yml`   | Push to main / manual        | Bump version based on conventional commits |
-| `release.yml`        | Tag push / release published | Build .xpi and attach to GitHub release   |
+| Workflow           | Trigger                      | Purpose                                    |
+| ------------------ | ---------------------------- | ------------------------------------------ |
+| `ci.yml`           | Push/PR to main              | Run ESLint, Prettier check, build          |
+| `version-bump.yml` | Push to main / manual        | Bump version based on conventional commits |
+| `release.yml`      | Tag push / release published | Build .xpi and attach to GitHub release    |
 
 **Conventional Commits:**
 
@@ -113,10 +113,12 @@ git push origin main --tags
 **Creating Releases:**
 
 Releases with `.xpi` artifacts are created automatically when:
+
 1. A tag starting with `v` is pushed
 2. A GitHub release is published
 
 To create a release manually:
+
 ```bash
 gh release create v0.x.x --generate-notes --prerelease
 ```
