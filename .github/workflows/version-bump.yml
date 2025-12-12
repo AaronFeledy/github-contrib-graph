@@ -9,6 +9,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'manifest.json'
+      - '.prettierignore'
 
   # Manual: workflow dispatch with version type input
   workflow_dispatch:
@@ -75,6 +76,7 @@ jobs:
         run: |
           VERSION=${{ steps.changelog-auto.outputs.version }}
           node scripts/sync-version.mjs
+          npx prettier --write manifest.json
           git add manifest.json
           git commit --amend --no-edit
           # Delete and recreate tag to point to amended commit
@@ -95,7 +97,9 @@ jobs:
       # Sync manifest.json for manual bumps
       - name: Sync manifest.json (manual)
         if: github.event_name == 'workflow_dispatch'
-        run: node scripts/sync-version.mjs
+        run: |
+          node scripts/sync-version.mjs
+          npx prettier --write manifest.json
 
       # Commit and tag for manual bumps
       - name: Commit and Tag (manual)
