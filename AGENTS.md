@@ -77,3 +77,46 @@ options/        # Settings page - accessible from extension preferences
 - **web-ext**: Mozilla's official tool for building and testing; config in `web-ext-config.mjs`
 
 Dev files are excluded from the built .xpi via `ignoreFiles` in web-ext config.
+
+## CI/CD
+
+**GitHub Actions Workflows:**
+
+| Workflow             | Trigger                      | Purpose                                   |
+| -------------------- | ---------------------------- | ----------------------------------------- |
+| `ci.yml`             | Push/PR to main              | Run ESLint, Prettier check, build         |
+| `version-bump.yml`   | Push to main / manual        | Bump version based on conventional commits |
+| `release.yml`        | Tag push / release published | Build .xpi and attach to GitHub release   |
+
+**Conventional Commits:**
+
+Use conventional commit prefixes for automatic versioning:
+
+- `fix:` → patch bump (0.1.0 → 0.1.1)
+- `feat:` → minor bump (0.1.0 → 0.2.0)
+- `feat!:` or `BREAKING CHANGE:` → major bump (0.1.0 → 1.0.0)
+- `chore:`, `docs:`, `refactor:` → no version bump
+
+**Version Sync:**
+
+Version is stored in both `package.json` and `manifest.json`. The `scripts/sync-version.mjs` script copies the version from package.json to manifest.json. This runs automatically during version bumps via the `npm version` lifecycle hook.
+
+**Manual Version Bump:**
+
+```bash
+# Via GitHub Actions UI: Actions → Version Bump → Run workflow
+# Or locally:
+npm version patch  # or minor, major
+git push origin main --tags
+```
+
+**Creating Releases:**
+
+Releases with `.xpi` artifacts are created automatically when:
+1. A tag starting with `v` is pushed
+2. A GitHub release is published
+
+To create a release manually:
+```bash
+gh release create v0.x.x --generate-notes --prerelease
+```

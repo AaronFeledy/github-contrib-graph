@@ -72,6 +72,10 @@ npm install
 ### Project Structure
 
 ```
+├── .github/workflows/  # CI/CD automation
+│   ├── ci.yml          # Lint and build on PR/push
+│   ├── version-bump.yml # Auto/manual version bumping
+│   └── release.yml     # Build and publish releases
 ├── background/         # Service worker for cross-origin requests
 │   └── background.js
 ├── icons/              # Extension icons (16, 32, 48, 96, 128px)
@@ -83,12 +87,34 @@ npm install
 │   ├── popup.html
 │   ├── popup.css
 │   └── popup.js
+├── scripts/            # Build utilities
+│   └── sync-version.mjs # Syncs version to manifest.json
 ├── manifest.json       # Extension manifest (MV3)
 ├── eslint.config.js    # ESLint configuration
 ├── web-ext-config.mjs  # web-ext build configuration
 ├── .prettierrc         # Prettier configuration
 └── package.json        # npm scripts and dependencies
 ```
+
+### Contributing
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/) for automatic versioning:
+
+| Prefix   | Example                        | Version Bump |
+| -------- | ------------------------------ | ------------ |
+| `fix:`   | `fix: resolve popup alignment` | Patch        |
+| `feat:`  | `feat: add dark mode toggle`   | Minor        |
+| `feat!:` | `feat!: redesign settings API` | Major        |
+
+Commits with `chore:`, `docs:`, or `refactor:` prefixes don't trigger version bumps.
+
+### Releases
+
+Releases are automated via GitHub Actions:
+
+1. **On merge to main**: Version is automatically bumped based on commit messages
+2. **Manual**: Trigger "Version Bump" workflow from GitHub Actions UI
+3. **Release artifacts**: `.xpi` files are automatically attached to GitHub releases
 
 ## License
 
