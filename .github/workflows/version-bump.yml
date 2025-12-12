@@ -73,11 +73,15 @@ jobs:
       - name: Sync manifest.json (auto)
         if: github.event_name == 'push' && steps.changelog-auto.outputs.skipped != 'true'
         run: |
+          VERSION=${{ steps.changelog-auto.outputs.version }}
           node scripts/sync-version.mjs
           git add manifest.json
           git commit --amend --no-edit
+          # Delete and recreate tag to point to amended commit
+          git tag -d "v${VERSION}"
+          git tag "v${VERSION}"
           git push origin main --force-with-lease
-          git push origin --tags --force-with-lease
+          git push origin "v${VERSION}" --force
 
       # Manual bump using npm version
       - name: Manual Version Bump
