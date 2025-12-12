@@ -1,6 +1,6 @@
 {
   "name": "github-contrib-graph",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Firefox extension to display GitHub contribution graph in toolbar",
   "private": true,
   "type": "module",

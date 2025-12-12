@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GitHub Contribution Graph",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "View your GitHub contribution graph directly from the browser toolbar. Quickly check your daily contributions and yearly activity without leaving your current tab.",
   "author": "Aaron Feledy",
   "homepage_url": "https://github.com/aaronfeledy/github-contrib-graph",
