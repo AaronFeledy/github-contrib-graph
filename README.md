@@ -2,6 +2,8 @@
 
 A Firefox browser extension that displays your GitHub contribution graph directly in the browser toolbar. Quickly check your daily contributions and yearly activity without leaving your current tab.
 
+![Screenshot of the extension popup showing the GitHub contribution graph](docs/screenshot.png)
+
 ## Features
 
 - View your full year contribution graph from the toolbar popup

@@ -19,6 +19,7 @@ export default {
     'AGENTS.md',
     'CLAUDE.md',
     '.cursorrules',
+    'docs',
     '*.xpi'
   ],
   build: {
