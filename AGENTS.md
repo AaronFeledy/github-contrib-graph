@@ -84,11 +84,11 @@ Dev files are excluded from the built .xpi via `ignoreFiles` in web-ext config.
 
 **GitHub Actions Workflows:**
 
-| Workflow           | Trigger                      | Purpose                                              |
-| ------------------ | ---------------------------- | ---------------------------------------------------- |
+| Workflow           | Trigger                      | Purpose                                               |
+| ------------------ | ---------------------------- | ----------------------------------------------------- |
 | `ci.yml`           | Push/PR to main              | Run ESLint, Mozilla validation, Prettier check, build |
-| `version-bump.yml` | Push to main / manual        | Bump version based on conventional commits           |
-| `release.yml`      | Tag push / release published | Validate, build .xpi and attach to GitHub release    |
+| `version-bump.yml` | Push to main / manual        | Bump version based on conventional commits            |
+| `release.yml`      | Tag push / release published | Validate, build .xpi and attach to GitHub release     |
 
 **Conventional Commits:**
 
