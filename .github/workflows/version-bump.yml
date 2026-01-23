@@ -27,6 +27,11 @@ on:
 permissions:
   contents: write
 
+# Prevent concurrent version bumps - queue runs instead of cancelling
+concurrency:
+  group: version-bump
+  cancel-in-progress: false
+
 jobs:
   version-bump:
     name: Bump Version
