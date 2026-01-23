@@ -363,7 +363,7 @@ async function fetchContributions(forceRefresh = false) {
 }
 
 // Event Listeners
-retryBtn.addEventListener('click', () => fetchContributions(false));
+retryBtn.addEventListener('click', () => fetchContributions(true));
 
 refreshBtn.addEventListener('click', async () => {
   refreshBtn.classList.add('loading');
