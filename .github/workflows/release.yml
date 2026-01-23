@@ -71,3 +71,10 @@ jobs:
             ${{ steps.build.outputs.target }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Publish to Mozilla Add-ons (AMO)
+      - name: Publish to Mozilla Add-ons
+        run: npx web-ext sign --channel listed
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
