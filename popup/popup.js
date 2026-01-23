@@ -326,9 +326,11 @@ async function fetchContributions(forceRefresh = false) {
       }
     }
 
-    // Only show loading spinner if graph isn't already visible (initial load)
-    // For refresh, the graph stays visible and the button shows loading state
-    if (!forceRefresh) {
+    // Show loading spinner unless graph is currently visible
+    // For refresh from graph state, the button shows loading state instead
+    // For retry from error state, show the loading spinner
+    const isGraphVisible = !graphContainer.classList.contains('hidden');
+    if (!isGraphVisible) {
       showState('loading');
       refreshBtn.classList.add('hidden');
     }
@@ -351,11 +353,16 @@ async function fetchContributions(forceRefresh = false) {
       throw new Error('No contribution data found');
     }
 
-    // Store in cache
-    await setCachedData(currentUsername, data);
-
+    // Render graph first (primary functionality)
     renderGraph(data);
     refreshBtn.classList.add('hidden');
+
+    // Store in cache (optimization - don't let cache failures affect display)
+    try {
+      await setCachedData(currentUsername, data);
+    } catch (cacheError) {
+      console.warn('Failed to cache contributions:', cacheError);
+    }
   } catch (error) {
     console.error('Failed to fetch contributions:', error);
     showError(error.message || 'Failed to load contributions');
