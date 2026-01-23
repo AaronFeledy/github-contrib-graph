@@ -6,6 +6,12 @@ on:
       - 'v*'
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g., v1.1.0). Leave empty to use latest tag.'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -17,6 +23,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine ref to checkout
+        id: ref
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            REF="${{ inputs.tag }}"
+            if [[ -z "$REF" ]]; then
+              REF=$(git describe --tags --abbrev=0)
+            fi
+          else
+            REF="${{ github.ref }}"
+          fi
+          echo "ref=$REF" >> $GITHUB_OUTPUT
+
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,9 +62,11 @@ jobs:
       - name: Get version from tag
         id: version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          TAG="${{ steps.ref.outputs.ref }}"
+          TAG="${TAG#refs/tags/}"
+          VERSION="${TAG#v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Build extension
         id: build
@@ -47,9 +75,9 @@ jobs:
           XPI_FILE=$(ls web-ext-artifacts/*.zip)
           echo "target=$XPI_FILE" >> $GITHUB_OUTPUT
 
-      # For tag push events, create a release
-      - name: Create Release (on tag push)
-        if: github.event_name == 'push'
+      # For tag push or workflow_dispatch events, create a release
+      - name: Create Release
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}

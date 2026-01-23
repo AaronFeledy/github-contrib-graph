@@ -27,6 +27,11 @@ on:
 permissions:
   contents: write
 
+# Prevent concurrent version bumps - queue runs instead of cancelling
+concurrency:
+  group: version-bump
+  cancel-in-progress: false
+
 jobs:
   version-bump:
     name: Bump Version
@@ -85,6 +90,13 @@ jobs:
           git push origin main --force-with-lease
           git push origin "v${VERSION}" --force
 
+      # Trigger release workflow (GITHUB_TOKEN tag pushes don't trigger other workflows)
+      - name: Trigger Release (auto)
+        if: github.event_name == 'push' && steps.changelog-auto.outputs.skipped != 'true'
+        run: gh workflow run release.yml -f tag="v${{ steps.changelog-auto.outputs.version }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # Manual bump using npm version
       - name: Manual Version Bump
         if: github.event_name == 'workflow_dispatch'
@@ -110,3 +122,10 @@ jobs:
           git commit -m "chore(release): v${VERSION}"
           git tag "v${VERSION}"
           git push origin main --tags
+
+      # Trigger release workflow (GITHUB_TOKEN tag pushes don't trigger other workflows)
+      - name: Trigger Release (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: gh workflow run release.yml -f tag="v${{ steps.manual-bump.outputs.version }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
