@@ -16,14 +16,16 @@ npm install
 
 **Commands:**
 
-| Command            | Purpose                                            |
-| ------------------ | -------------------------------------------------- |
-| `npm run start`    | Launch Firefox with extension for live development |
-| `npm run build`    | Create .xpi in `web-ext-artifacts/`                |
-| `npm run lint`     | Check code for issues (ESLint)                     |
-| `npm run lint:ext` | Validate extension (Mozilla addons-linter)         |
-| `npm run lint:fix` | Auto-fix linting issues                            |
-| `npm run format`   | Format all files with Prettier                     |
+| Command              | Purpose                                            |
+| -------------------- | -------------------------------------------------- |
+| `npm run start`      | Launch Firefox with extension for live development |
+| `npm run build`      | Create .xpi in `web-ext-artifacts/`                |
+| `npm run test`       | Run tests once                                     |
+| `npm run test:watch` | Run tests in watch mode                            |
+| `npm run lint`       | Check code for issues (ESLint)                     |
+| `npm run lint:ext`   | Validate extension (Mozilla addons-linter)         |
+| `npm run lint:fix`   | Auto-fix linting issues                            |
+| `npm run format`     | Format all files with Prettier                     |
 
 **Manual loading:**
 
@@ -46,6 +48,9 @@ options/        # Settings page - accessible from extension preferences
   options.html  # Form for configuring GitHub username
   options.css   # Dark theme styling matching popup
   options.js    # Loads/saves username to browser.storage.sync
+
+test/           # Test infrastructure
+  setup.js      # Browser API mocks for vitest
 ```
 
 **Data Flow:**
@@ -75,6 +80,7 @@ options/        # Settings page - accessible from extension preferences
 
 - **ESLint**: Flat config in `eslint.config.js` with browser/webextension globals
 - **Prettier**: Config in `.prettierrc` (single quotes, semicolons, 2-space indent)
+- **Vitest**: Test runner with happy-dom for DOM testing; config in `vitest.config.js`
 - **web-ext**: Mozilla's official tool for building and testing; config in `web-ext-config.mjs`
 - **addons-linter**: Mozilla's official extension validator (via `web-ext lint`); same validation used by AMO
 

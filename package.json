@@ -12,12 +12,16 @@
     "format:check": "prettier --check \"**/*.{js,json,css,html,md}\"",
     "build": "web-ext build",
     "start": "web-ext run",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "version": "node scripts/sync-version.mjs && git add manifest.json"
   },
   "devDependencies": {
     "eslint": "^9.16.0",
     "globals": "^16.0.0",
+    "happy-dom": "^20.3.7",
     "prettier": "^3.4.2",
+    "vitest": "^4.0.18",
     "web-ext": "^9.0.0"
   },
   "engines": {
