@@ -184,6 +184,9 @@ function renderGraph(data) {
   // Update total count
   totalCountEl.textContent = totalCount;
 
+  // Hide any existing tooltip before clearing the graph
+  hideTooltip();
+
   // Clear existing graph
   graphWrapper.innerHTML = '';
 
