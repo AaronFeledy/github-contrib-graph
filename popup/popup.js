@@ -293,6 +293,7 @@ function showConfigPrompt() {
 
   showState('error');
   retryBtn.style.display = 'none';
+  refreshBtn.classList.add('hidden');
 }
 
 /**
