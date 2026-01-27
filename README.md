@@ -113,11 +113,22 @@ Commits with `chore:`, `docs:`, or `refactor:` prefixes don't trigger version bu
 
 ### Releases
 
-Releases are automated via GitHub Actions:
+Release process (after merging to main):
 
-1. **On merge to main**: Version is automatically bumped based on commit messages
-2. **Manual**: Trigger "Version Bump" workflow from GitHub Actions UI
-3. **Release artifacts**: `.xpi` files are automatically attached to GitHub releases
+```bash
+# 1. Bump version (uses conventional commits to determine bump type)
+gh workflow run version-bump.yml
+
+# 2. Wait for version bump to complete, then trigger release
+gh run watch            # watch the version-bump run
+gh workflow run release.yml -f tag=v<NEW_VERSION>
+
+# 3. Monitor release
+gh run watch            # watch the release run
+gh release view --web   # view the published release
+```
+
+For manual version control, use `npm version patch|minor|major` locally, push with tags, then trigger the release workflow.
 
 ## License
 
