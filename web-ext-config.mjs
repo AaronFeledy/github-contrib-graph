@@ -5,11 +5,13 @@ export default {
     'node_modules',
     'web-ext-artifacts',
     'scripts',
+    'test',
     'package.json',
     'package-lock.json',
     'eslint.config.js',
     'web-ext-config.js',
     'web-ext-config.mjs',
+    'vitest.config.js',
     '.prettierrc',
     '.prettierignore',
     '.gitignore',
@@ -20,7 +22,8 @@ export default {
     'CLAUDE.md',
     '.cursorrules',
     'docs',
-    '*.xpi'
+    '*.xpi',
+    '**/*.test.js'
   ],
   build: {
     overwriteDest: true
