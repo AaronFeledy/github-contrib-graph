@@ -1,10 +1,15 @@
 'use strict';
 
+// Cache Constants
+const CACHE_KEY = 'contributionsCache';
+const CACHE_TTL = 60000; // 60 seconds
+
 // DOM Elements
 const loadingEl = document.getElementById('loading');
 const errorEl = document.getElementById('error');
 const errorMessageEl = document.getElementById('errorMessage');
 const retryBtn = document.getElementById('retryBtn');
+const refreshBtn = document.getElementById('refreshBtn');
 const graphContainer = document.getElementById('graphContainer');
 const graphWrapper = document.getElementById('graphWrapper');
 const totalCountEl = document.getElementById('totalCount');
@@ -179,6 +184,9 @@ function renderGraph(data) {
   // Update total count
   totalCountEl.textContent = totalCount;
 
+  // Hide any existing tooltip before clearing the graph
+  hideTooltip();
+
   // Clear existing graph
   graphWrapper.innerHTML = '';
 
@@ -236,6 +244,33 @@ async function getUsername() {
 }
 
 /**
+ * Get cached contribution data if valid
+ * Returns null if cache is expired, missing, or for different user
+ */
+async function getCachedData(username) {
+  const { [CACHE_KEY]: cache } = await browser.storage.local.get(CACHE_KEY);
+
+  if (!cache) return null;
+  if (cache.username !== username) return null;
+  if (Date.now() - cache.timestamp > CACHE_TTL) return null;
+
+  return cache.data;
+}
+
+/**
+ * Store contribution data in cache
+ */
+async function setCachedData(username, data) {
+  await browser.storage.local.set({
+    [CACHE_KEY]: {
+      username,
+      timestamp: Date.now(),
+      data
+    }
+  });
+}
+
+/**
  * Show configuration prompt when no username is set
  */
 function showConfigPrompt() {
@@ -258,13 +293,14 @@ function showConfigPrompt() {
 
   showState('error');
   retryBtn.style.display = 'none';
+  refreshBtn.classList.add('hidden');
 }
 
 /**
  * Fetch contributions from GitHub via background script
+ * @param {boolean} forceRefresh - If true, bypass cache and fetch fresh data
  */
-async function fetchContributions() {
-  showState('loading');
+async function fetchContributions(forceRefresh = false) {
   retryBtn.style.display = '';
 
   try {
@@ -279,6 +315,25 @@ async function fetchContributions() {
     // Update footer link with current username
     footerLink.href = `https://github.com/${currentUsername}`;
     footerLink.textContent = `@${currentUsername} on GitHub`;
+
+    // Check cache first (unless forcing refresh)
+    if (!forceRefresh) {
+      const cachedData = await getCachedData(currentUsername);
+      if (cachedData) {
+        renderGraph(cachedData);
+        refreshBtn.classList.remove('hidden');
+        return;
+      }
+    }
+
+    // Show loading spinner unless graph is currently visible
+    // For refresh from graph state, the button shows loading state instead
+    // For retry from error state, show the loading spinner
+    const isGraphVisible = !graphContainer.classList.contains('hidden');
+    if (!isGraphVisible) {
+      showState('loading');
+      refreshBtn.classList.add('hidden');
+    }
 
     const contributionsUrl = `https://github.com/users/${currentUsername}/contributions`;
 
@@ -298,15 +353,34 @@ async function fetchContributions() {
       throw new Error('No contribution data found');
     }
 
+    // Render graph first (primary functionality)
     renderGraph(data);
+    refreshBtn.classList.add('hidden');
+
+    // Store in cache (optimization - don't let cache failures affect display)
+    try {
+      await setCachedData(currentUsername, data);
+    } catch (cacheError) {
+      console.warn('Failed to cache contributions:', cacheError);
+    }
   } catch (error) {
     console.error('Failed to fetch contributions:', error);
     showError(error.message || 'Failed to load contributions');
+    refreshBtn.classList.add('hidden');
   }
 }
 
 // Event Listeners
-retryBtn.addEventListener('click', fetchContributions);
+retryBtn.addEventListener('click', () => fetchContributions(true));
+
+refreshBtn.addEventListener('click', async () => {
+  refreshBtn.classList.add('loading');
+  await fetchContributions(true);
+  refreshBtn.classList.remove('loading');
+});
 
 // Initialize on popup open
-document.addEventListener('DOMContentLoaded', fetchContributions);
+document.addEventListener('DOMContentLoaded', () => fetchContributions(false));
+
+// Export for testing
+export { fetchContributions };

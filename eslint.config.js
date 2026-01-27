@@ -15,12 +15,24 @@ export default [
       }
     }
   },
-  // Extension files (browser scripts)
+  // Test files (ES modules with vitest)
+  {
+    files: ['**/*.test.js', 'test/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+        ...globals.browser
+      }
+    }
+  },
+  // Extension files (ES modules for modern Firefox)
   {
     files: ['popup/**/*.js', 'background/**/*.js', 'options/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
         ...globals.webextensions
