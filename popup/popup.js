@@ -253,6 +253,7 @@ async function getCachedData(username) {
   if (!cache) return null;
   if (cache.username !== username) return null;
   if (Date.now() - cache.timestamp > CACHE_TTL) return null;
+  if (!cache.data || !Array.isArray(cache.data.contributions)) return null;
 
   return cache.data;
 }
@@ -318,11 +319,16 @@ async function fetchContributions(forceRefresh = false) {
 
     // Check cache first (unless forcing refresh)
     if (!forceRefresh) {
-      const cachedData = await getCachedData(currentUsername);
-      if (cachedData) {
-        renderGraph(cachedData);
-        refreshBtn.classList.remove('hidden');
-        return;
+      try {
+        const cachedData = await getCachedData(currentUsername);
+        if (cachedData) {
+          renderGraph(cachedData);
+          refreshBtn.classList.remove('hidden');
+          return;
+        }
+      } catch (cacheError) {
+        console.warn('Failed to read cache:', cacheError);
+        // Continue to fetch fresh data
       }
     }
 
